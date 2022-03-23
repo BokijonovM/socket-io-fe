@@ -20,8 +20,6 @@ const MyHome = () => {
   const [room, setRoom] = useState<TRoom>("blue");
 
   useEffect(() => {
-    // we need to launch this event listener JUST ONCE!
-    // not every time the component re-renders
     socket.on("connect", () => {
       console.log("connection established!");
     });
@@ -135,7 +133,6 @@ const MyHome = () => {
               Room
             </Button>
           </Form>
-          {/* MIDDLE SECTION: CHAT HISTORY */}
           <ListGroup>
             {chatHistory.map((message) => (
               <ListGroup.Item key={message.timestamp} className="d-flex">
@@ -149,7 +146,6 @@ const MyHome = () => {
               </ListGroup.Item>
             ))}
           </ListGroup>
-          {/* BOTTOM SECTION: NEW MESSAGE INPUT FIELD */}
           <Form onSubmit={handleMessageSubmit}>
             <Form.Control
               type="text"

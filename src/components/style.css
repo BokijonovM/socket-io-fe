@@ -4,3 +4,11 @@
 .connected-users {
   background-color: grey;
 }
+.style1 {
+  display: flex;
+  background-color: green;
+}
+.style2 {
+  display: flex;
+  background-color: grey;
+}
