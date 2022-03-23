@@ -103,7 +103,6 @@ const MyHome = () => {
     <Container fluid className="px-4 mt-3">
       <Row style={{ height: "95vh" }}>
         <Col md={3} className="col-1-inside-row">
-          {/* ONLINE USERS COL */}
           <div className="mb-3 py-3 connected-users">Connected users:</div>
           <ListGroup>
             {onlineUsers
@@ -114,25 +113,35 @@ const MyHome = () => {
           </ListGroup>
         </Col>
         <Col md={9} className="d-flex flex-column justify-content-between">
-          {/* MAIN VIEW COL */}
-          {/* TOP SECTION: USERNAME INPUT FIELD */}
-          <Form onSubmit={handleUsernameSubmit} className="d-flex">
-            <Form.Control
-              type="text"
-              placeholder="Enter your username"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              disabled={isLoggedIn}
-            />
-            <Button
-              className="ml-2"
-              onClick={handleToggleRoom}
-              variant={room === "blue" ? "primary" : "danger"}
-              disabled={isLoggedIn}
-            >
-              Room
-            </Button>
-          </Form>
+          <div>
+            <ListGroup>
+              {onlineUsers
+                .filter((user) => user.room === room)
+                .map((user) => (
+                  <ListGroup.Item key={user.id}>
+                    <span className="text-muted mr-4">{user.username}:</span>
+                    {user.id}
+                  </ListGroup.Item>
+                ))}
+            </ListGroup>
+            <Form onSubmit={handleUsernameSubmit} className="d-flex mt-2">
+              <Form.Control
+                type="text"
+                placeholder="Enter your username"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                disabled={isLoggedIn}
+              />
+              <Button
+                className="ml-2"
+                onClick={handleToggleRoom}
+                variant={room === "blue" ? "primary" : "danger"}
+                disabled={isLoggedIn}
+              >
+                Room
+              </Button>
+            </Form>
+          </div>
           <ListGroup>
             {chatHistory.map((message) => (
               <ListGroup.Item key={message.timestamp} className="d-flex">
