@@ -23,7 +23,6 @@ const MyHome = () => {
     socket.on("connect", () => {
       console.log("connection established!");
     });
-    // every time you use .on() you're LISTENING for an event emitted on the server
 
     socket.on("loggedin", () => {
       console.log("You're correctly logged in now");
@@ -31,8 +30,6 @@ const MyHome = () => {
       fetchOnlineUsers();
 
       socket.on("newConnection", () => {
-        // this is for the already connected clients!
-        // will never be sent to a user that just logged in
         console.log("Look! another client connected!");
         fetchOnlineUsers();
       });
@@ -43,8 +40,6 @@ const MyHome = () => {
       });
 
       socket.on("message", (newMessage: Message) => {
-        // setChatHistory([...chatHistory, newMessage])
-        // bug?
         setChatHistory((currentChatHistory) => [
           ...currentChatHistory,
           newMessage,
@@ -55,11 +50,7 @@ const MyHome = () => {
 
   const handleUsernameSubmit = (e: FormEvent) => {
     e.preventDefault();
-    // we need to send the username to the server
-    // the username is safely stored in a 'username' state variable
-    // we'll EMIT AN EVENT to the server!
     socket.emit("setUsername", {
-      // username: username
       username,
       room,
     });
@@ -91,7 +82,6 @@ const MyHome = () => {
 
     socket.emit("sendmessage", { message: messageToSend, room });
     setChatHistory([...chatHistory, messageToSend]);
-    // [...chatHistory] <-- creates an exact copy of chatHistory
     setMessage("");
   };
 
@@ -145,7 +135,7 @@ const MyHome = () => {
           <ListGroup>
             {chatHistory.map((message) => (
               <ListGroup.Item key={message.timestamp} className="d-flex">
-                <strong className="d-inline-block" style={{ minWidth: 80 }}>
+                <strong className="d-inline-block min-width-80">
                   {message.sender}
                 </strong>
                 {message.text}
